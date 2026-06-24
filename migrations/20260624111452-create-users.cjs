@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('sessions', {
+    await queryInterface.createTable('users', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -11,25 +11,36 @@ module.exports = {
         allowNull: false,
       },
 
-      name: {
-        type: Sequelize.STRING, // e.g. "2025/2026"
+      schoolId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: 'schools',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      },
+
+      email: {
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true,
       },
 
-      startDate: {
-        type: Sequelize.DATEONLY,
-        allowNull: true,
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false, // will store hashed password
       },
 
-      endDate: {
-        type: Sequelize.DATEONLY,
-        allowNull: true,
+      role: {
+        type: Sequelize.ENUM('admin', 'teacher'),
+        allowNull: false,
       },
 
       isActive: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false,
+        defaultValue: true,
       },
 
       createdAt: {
@@ -47,6 +58,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('sessions');
+    await queryInterface.dropTable('users');
+    await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_users_role";');
   },
 };

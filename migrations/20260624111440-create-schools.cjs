@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('sessions', {
+    await queryInterface.createTable('schools', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -12,24 +12,34 @@ module.exports = {
       },
 
       name: {
-        type: Sequelize.STRING, // e.g. "2025/2026"
+        type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
 
-      startDate: {
-        type: Sequelize.DATEONLY,
+      address: {
+        type: Sequelize.STRING,
         allowNull: true,
       },
 
-      endDate: {
-        type: Sequelize.DATEONLY,
+      phone: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+
+      email: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true,
+      },
+
+      logoUrl: {
+        type: Sequelize.STRING,
         allowNull: true,
       },
 
       isActive: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false,
+        defaultValue: true,
       },
 
       createdAt: {
@@ -47,6 +57,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('sessions');
+    await queryInterface.dropTable('schools');
   },
 };
