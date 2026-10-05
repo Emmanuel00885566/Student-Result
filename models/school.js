@@ -47,5 +47,24 @@ export default (sequelize, DataTypes) => {
     });
   };
 
+
+  School.associate = (models) => {
+    School.hasMany(models.User, {
+      foreignKey: "schoolId",
+      as: "users",
+    });
+
+    School.hasOne(models.GradingSetting, {
+      foreignKey: "schoolId",
+      as: "gradingSetting",
+    });
+
+    School.hasMany(models.GradeScale, {
+      foreignKey: "schoolId",
+      as: "gradeScales",
+    });
+  };
+
+  
   return School;
 };

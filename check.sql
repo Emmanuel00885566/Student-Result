@@ -1,0 +1,1 @@
+SELECT grade, "minScore", "maxScore", remark FROM grade_scales ORDER BY "minScore" DESC;
